@@ -48,14 +48,42 @@
     </section>
 
     <!--
-      Historia 3 (equipo: por asignar)
+      Historia 3 (CAL-3 — Jimena)
       "Como contador, quiero agregar un nuevo documento requerido a un
       cliente específico, para casos que no son iguales todos los meses."
     -->
     <section id="agregar-documento" class="panel" aria-labelledby="agregar-documento-title">
       <h2 id="agregar-documento-title">Agregar documento requerido</h2>
       <div class="panel-body" data-feature="agregar-documento">
-        <!-- TODO -->
+
+        <form id="form-agregar-documento" class="form-agregar-documento">
+          <div class="form-row">
+            <label for="input-cliente">Cliente</label>
+            <input list="lista-clientes-datalist" id="input-cliente" name="cliente" placeholder="Nombre del cliente" required>
+            <datalist id="lista-clientes-datalist"></datalist>
+          </div>
+
+          <div class="form-row">
+            <label for="input-documento">Documento requerido</label>
+            <input type="text" id="input-documento" name="documento" placeholder="Ej. Estado de cuenta bancario" required>
+          </div>
+
+          <button type="submit" class="btn">Agregar documento</button>
+        </form>
+
+        <p id="mensaje-agregar-documento" class="form-mensaje" role="status" aria-live="polite"></p>
+
+        <table id="tabla-documentos-agregados" class="tabla-documentos" hidden>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Documento</th>
+              <th>Agregado el</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
       </div>
     </section>
 
