@@ -1,50 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Núñez y Asociados — Seguimiento de documentos</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <header class="site-header">
     <div class="wrap">
+
       <p class="brand-mark">Núñez y Asociados</p>
+
       <h1>Seguimiento de documentos mensuales</h1>
-      <p class="subtitle">Sprint de calentamiento — Cliente 4</p>
+
+      <p class="subtitle">
+        Sprint de calentamiento — Cliente 4
+      </p>
+
     </div>
   </header>
 
+
   <main class="wrap">
 
-    <!--
-      Historia 1 (Karlo — pendiente de fusionar a main)
-      "Como contador, quiero ver una lista de mis clientes con el estatus de
-      sus documentos del mes (pendiente/entregado), para saber a quién dar
-      seguimiento."
-    -->
+    <!-- =====================================================
+         CAL-1
+         Consultar estado de documentos
+         ===================================================== -->
+
     <section id="lista-clientes" class="panel" aria-labelledby="lista-clientes-title">
-      <h2 id="lista-clientes-title">Clientes y estatus de documentos</h2>
+
+      <h2 id="lista-clientes-title">
+        Clientes y estatus de documentos
+      </h2>
+
       <div class="panel-body" data-feature="lista-clientes">
-        <!-- TODO -->
+        <!-- La tabla se genera desde JavaScript -->
       </div>
+
     </section>
 
-    <!--
-      Historia 2 (CAL-2 — Jimena)
-      "Como contador, quiero marcar un documento como recibido, para
-      actualizar el estatus del cliente."
-    -->
+
+    <!-- =====================================================
+         CAL-2
+         Marcar documento como recibido
+         ===================================================== -->
+
     <section id="marcar-documento" class="panel" aria-labelledby="marcar-documento-title">
-      <h2 id="marcar-documento-title">Marcar documento como recibido</h2>
+
+      <h2 id="marcar-documento-title">
+        Marcar documento como recibido
+      </h2>
+
       <div class="panel-body" data-feature="marcar-documento">
 
         <p id="mensaje-marcar-documento" class="form-mensaje" role="status" aria-live="polite"></p>
 
         <table id="tabla-marcar-documentos" class="tabla-documentos" hidden>
+
           <thead>
             <tr>
               <th>Cliente</th>
@@ -53,64 +77,112 @@
               <th></th>
             </tr>
           </thead>
+
           <tbody></tbody>
+
         </table>
 
         <p id="marcar-sin-datos" class="marcar-sin-datos">
-          Aún no hay documentos registrados. Agrega uno en la sección de abajo para poder marcarlo como recibido.
+          Aún no hay documentos registrados.
+          Agrega uno en la sección de abajo para poder
+          marcarlo como recibido.
         </p>
 
       </div>
+
     </section>
 
-    <!--
-      Historia 3 (CAL-3 — Jimena)
-      "Como contador, quiero agregar un nuevo documento requerido a un
-      cliente específico, para casos que no son iguales todos los meses."
-    -->
+
+    <!-- =====================================================
+         CAL-3
+         Agregar documento requerido
+         ===================================================== -->
+
     <section id="agregar-documento" class="panel" aria-labelledby="agregar-documento-title">
-      <h2 id="agregar-documento-title">Agregar documento requerido</h2>
+
+      <h2 id="agregar-documento-title">
+        Agregar documento requerido
+      </h2>
+
       <div class="panel-body" data-feature="agregar-documento">
 
         <form id="form-agregar-documento" class="form-agregar-documento">
+
           <div class="form-row">
-            <label for="input-cliente">Cliente</label>
-            <input list="lista-clientes-datalist" id="input-cliente" name="cliente" placeholder="Nombre del cliente" required>
+
+            <label for="input-cliente">
+              Cliente
+            </label>
+
+            <input list="lista-clientes-datalist" id="input-cliente" name="cliente" placeholder="Nombre del cliente"
+              required>
+
             <datalist id="lista-clientes-datalist"></datalist>
+
           </div>
+
 
           <div class="form-row">
-            <label for="input-documento">Documento requerido</label>
-            <input type="text" id="input-documento" name="documento" placeholder="Ej. Estado de cuenta bancario" required>
+
+            <label for="input-documento">
+              Documento requerido
+            </label>
+
+            <input type="text" id="input-documento" name="documento" placeholder="Ej. Estado de cuenta bancario"
+              required>
+
           </div>
 
-          <button type="submit" class="btn">Agregar documento</button>
+
+          <button type="submit" class="btn">
+            Agregar documento
+          </button>
+
         </form>
+
 
         <p id="mensaje-agregar-documento" class="form-mensaje" role="status" aria-live="polite"></p>
 
+
         <table id="tabla-documentos-agregados" class="tabla-documentos" hidden>
+
           <thead>
+
             <tr>
               <th>Cliente</th>
               <th>Documento</th>
               <th>Agregado el</th>
             </tr>
+
           </thead>
+
           <tbody></tbody>
+
         </table>
 
       </div>
+
     </section>
 
   </main>
 
+
   <footer class="site-footer">
+
     <div class="wrap">
-      <p>Proyecto base — Taller de Scrum. Cada sección se completa por historia asignada.</p>
+
+      <p>
+        Proyecto base — Taller de Scrum.
+        Cliente 4 — Núñez y Asociados.
+      </p>
+
     </div>
+
   </footer>
 
+
   <script src="script.js"></script>
+
 </body>
+
 </html>
