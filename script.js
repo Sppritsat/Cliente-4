@@ -1,4 +1,82 @@
 // ============================================================
+<<<<<<< HEAD
+// Núñez y Asociados — Consulta de documentos
+// CAL-1: Consultar estado de documentos de clientes
+// ============================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // Obtener el panel correspondiente a CAL-1
+  const panelLista = document.querySelector(
+    '[data-feature="lista-clientes"]'
+  );
+
+  // Datos de ejemplo de los clientes
+  if (panelLista) {
+    const clientes = [
+      {
+        cliente: "Juan Pérez",
+        documento: "Factura mensual",
+        estado: "Entregado"
+      },
+      {
+        cliente: "María López",
+        documento: "Comprobante fiscal",
+        estado: "Pendiente"
+      },
+      {
+        cliente: "Carlos García",
+        documento: "Factura mensual",
+        estado: "Entregado"
+      },
+      {
+        cliente: "Ana Martínez",
+        documento: "Declaración mensual",
+        estado: "Pendiente"
+      }
+    ];
+
+    // Crear la tabla
+    const tabla = document.createElement("table");
+
+    tabla.innerHTML = `
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Documento</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+
+    const cuerpoTabla = tabla.querySelector("tbody");
+
+    // Agregar cada cliente a la tabla
+    clientes.forEach(cliente => {
+
+      const fila = document.createElement("tr");
+
+      const claseEstado =
+        cliente.estado === "Entregado"
+          ? "status-entregado"
+          : "status-pendiente";
+
+      fila.innerHTML = `
+        <td>${cliente.cliente}</td>
+        <td>${cliente.documento}</td>
+        <td class="${claseEstado}">
+          ${cliente.estado}
+        </td>
+      `;
+
+      cuerpoTabla.appendChild(fila);
+    });
+
+    // Mostrar la tabla en el panel de CAL-1
+    panelLista.appendChild(tabla);
+  }
+=======
 // Núñez y Asociados — punto de entrada
 // ============================================================
 
@@ -8,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Historia: marcar-documento (CAL-2)
   initMarcarDocumento();
+>>>>>>> origin/main
 
   // Historia: agregar-documento (CAL-3)
   initAgregarDocumento();
@@ -185,6 +264,7 @@ function initAgregarDocumento() {
     mensaje.className = esError
       ? "form-mensaje form-mensaje--error"
       : "form-mensaje form-mensaje--ok";
+
     setTimeout(() => {
       mensaje.textContent = "";
       mensaje.className = "form-mensaje";
@@ -202,7 +282,10 @@ function initAgregarDocumento() {
     const documento = inputDocumento.value.trim();
 
     if (!cliente || !documento) {
-      mostrarMensaje("Escribe el cliente y el documento antes de agregar.", true);
+      mostrarMensaje(
+        "Escribe el cliente y el documento antes de agregar.",
+        true
+      );
       return;
     }
 
@@ -215,7 +298,10 @@ function initAgregarDocumento() {
     );
 
     if (yaExiste) {
-      mostrarMensaje(`${cliente} ya tiene "${documento}" en su lista.`, true);
+      mostrarMensaje(
+        `${cliente} ya tiene "${documento}" en su lista.`,
+        true
+      );
       return;
     }
 
