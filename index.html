@@ -21,12 +21,10 @@
   <main class="wrap">
 
     <!--
-      Historia 1 (equipo: por asignar)
+      Historia 1 (Karlo — pendiente de fusionar a main)
       "Como contador, quiero ver una lista de mis clientes con el estatus de
       sus documentos del mes (pendiente/entregado), para saber a quién dar
       seguimiento."
-      Este contenedor es solo el punto de entrada. La tabla, los datos y el
-      estilo del estatus los define quien tome esta historia.
     -->
     <section id="lista-clientes" class="panel" aria-labelledby="lista-clientes-title">
       <h2 id="lista-clientes-title">Clientes y estatus de documentos</h2>
@@ -36,14 +34,32 @@
     </section>
 
     <!--
-      Historia 2 (equipo: por asignar)
+      Historia 2 (CAL-2 — Jimena)
       "Como contador, quiero marcar un documento como recibido, para
       actualizar el estatus del cliente."
     -->
     <section id="marcar-documento" class="panel" aria-labelledby="marcar-documento-title">
       <h2 id="marcar-documento-title">Marcar documento como recibido</h2>
       <div class="panel-body" data-feature="marcar-documento">
-        <!-- TODO -->
+
+        <p id="mensaje-marcar-documento" class="form-mensaje" role="status" aria-live="polite"></p>
+
+        <table id="tabla-marcar-documentos" class="tabla-documentos" hidden>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Documento</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <p id="marcar-sin-datos" class="marcar-sin-datos">
+          Aún no hay documentos registrados. Agrega uno en la sección de abajo para poder marcarlo como recibido.
+        </p>
+
       </div>
     </section>
 

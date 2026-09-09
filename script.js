@@ -1,4 +1,5 @@
 // ============================================================
+<<<<<<< HEAD
 // Núñez y Asociados — Consulta de documentos
 // CAL-1: Consultar estado de documentos de clientes
 // ============================================================
@@ -75,18 +76,142 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mostrar la tabla en el panel de CAL-1
     panelLista.appendChild(tabla);
   }
+=======
+// Núñez y Asociados — punto de entrada
+// ============================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Historia: lista-clientes (CAL-1 — pendiente de fusionar)
+  // const panelLista = document.querySelector('[data-feature="lista-clientes"]');
+
+  // Historia: marcar-documento (CAL-2)
+  initMarcarDocumento();
+>>>>>>> origin/main
 
   // Historia: agregar-documento (CAL-3)
   initAgregarDocumento();
 });
 
 // ------------------------------------------------------------
+// Storage compartido entre CAL-2 y CAL-3
+// { "Cliente X": [{ nombre, agregadoEl, recibido, recibidoEl }, ...] }
+// ------------------------------------------------------------
+const STORAGE_KEY = "documentosRequeridosPorCliente";
+
+function cargarDatos() {
+  const guardado = localStorage.getItem(STORAGE_KEY);
+  return guardado ? JSON.parse(guardado) : {};
+}
+
+function guardarDatos(datos) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
+}
+
+// ------------------------------------------------------------
+// CAL-2 — Marcar documento como recibido
+// ------------------------------------------------------------
+function initMarcarDocumento() {
+  const tabla = document.getElementById("tabla-marcar-documentos");
+  if (!tabla) return; // esta sección no está en esta página
+
+  const tbody = tabla.querySelector("tbody");
+  const mensaje = document.getElementById("mensaje-marcar-documento");
+  const sinDatos = document.getElementById("marcar-sin-datos");
+
+  function mostrarMensaje(texto, esError = false) {
+    mensaje.textContent = texto;
+    mensaje.className = esError
+      ? "form-mensaje form-mensaje--error"
+      : "form-mensaje form-mensaje--ok";
+    setTimeout(() => {
+      mensaje.textContent = "";
+      mensaje.className = "form-mensaje";
+    }, 3000);
+  }
+
+  function renderizarTabla() {
+    const datos = cargarDatos();
+    tbody.innerHTML = "";
+    const filas = [];
+
+    Object.entries(datos).forEach(([cliente, documentos]) => {
+      documentos.forEach((doc, indice) => filas.push({ cliente, indice, ...doc }));
+    });
+
+    if (filas.length === 0) {
+      tabla.hidden = true;
+      sinDatos.hidden = false;
+      return;
+    }
+
+    tabla.hidden = false;
+    sinDatos.hidden = true;
+
+    filas
+      .sort((a, b) => {
+        // pendientes primero, luego por fecha de agregado
+        if (Boolean(a.recibido) !== Boolean(b.recibido)) {
+          return a.recibido ? 1 : -1;
+        }
+        return new Date(b.agregadoEl) - new Date(a.agregadoEl);
+      })
+      .forEach((fila) => {
+        const tr = document.createElement("tr");
+        const claseEstado = fila.recibido ? "status-entregado" : "status-pendiente";
+        const textoEstado = fila.recibido ? "Entregado" : "Pendiente";
+
+        tr.innerHTML = `
+          <td>${fila.cliente}</td>
+          <td>${fila.nombre}</td>
+          <td class="${claseEstado}">${textoEstado}</td>
+          <td></td>
+        `;
+
+        const celdaAccion = tr.querySelector("td:last-child");
+
+        if (!fila.recibido) {
+          const boton = document.createElement("button");
+          boton.className = "btn btn-small";
+          boton.textContent = "Marcar como recibido";
+          boton.addEventListener("click", () => {
+            marcarComoRecibido(fila.cliente, fila.indice);
+          });
+          celdaAccion.appendChild(boton);
+        }
+
+        tbody.appendChild(tr);
+      });
+  }
+
+  function marcarComoRecibido(cliente, indice) {
+    const datos = cargarDatos();
+    const documento = datos[cliente]?.[indice];
+
+    if (!documento) {
+      mostrarMensaje("No se encontró ese documento, intenta de nuevo.", true);
+      return;
+    }
+
+    documento.recibido = true;
+    documento.recibidoEl = new Date().toISOString();
+
+    guardarDatos(datos);
+    renderizarTabla();
+    mostrarMensaje(`Se marcó "${documento.nombre}" de ${cliente} como recibido.`);
+  }
+
+  renderizarTabla();
+
+  // Vuelve a dibujar la tabla si CAL-3 agrega un documento nuevo en la misma sesión
+  window.addEventListener("storage", (evento) => {
+    if (evento.key === STORAGE_KEY) renderizarTabla();
+  });
+}
+
+// ------------------------------------------------------------
 // CAL-3 — Agregar documento requerido a un cliente
-// Guarda en localStorage: { "Cliente X": [{nombre, agregadoEl}, ...] }
 // ------------------------------------------------------------
 function initAgregarDocumento() {
-  const STORAGE_KEY = "documentosRequeridosPorCliente";
-
   const form = document.getElementById("form-agregar-documento");
   if (!form) return;
 
@@ -96,15 +221,6 @@ function initAgregarDocumento() {
   const tabla = document.getElementById("tabla-documentos-agregados");
   const tbody = tabla.querySelector("tbody");
   const datalist = document.getElementById("lista-clientes-datalist");
-
-  function cargarDatos() {
-    const guardado = localStorage.getItem(STORAGE_KEY);
-    return guardado ? JSON.parse(guardado) : {};
-  }
-
-  function guardarDatos(datos) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
-  }
 
   function actualizarDatalist(datos) {
     datalist.innerHTML = "";
@@ -192,6 +308,7 @@ function initAgregarDocumento() {
     datos[cliente].push({
       nombre: documento,
       agregadoEl: new Date().toISOString(),
+      recibido: false,
     });
 
     guardarDatos(datos);
