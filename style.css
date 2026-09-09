@@ -229,3 +229,16 @@ th, td {
   font-weight: 500;
   font-size: 0.85rem;
 }
+
+/* Tabla: marcar documento recibido (CAL-2) */
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+}
+
+.marcar-sin-datos {
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+  margin: 0;
+}
