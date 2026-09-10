@@ -468,20 +468,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderizarPendientes() {
     const tabla = document.getElementById("tabla-marcar-documentos");
-    const tbody = tabla.querySelector("tbody");
     const vacio = document.getElementById("pendientes-vacio");
-    const datos = cargarDatos();
+    if (!tabla || !vacio) return;
 
+    const tbody = tabla.querySelector("tbody");
+    const datos = cargarDatos();
     const pendientes = [];
 
     Object.entries(datos).forEach(([cliente, documentos]) => {
       documentos.forEach((documento, indice) => {
         if (!documento.recibido) {
-          pendientes.push({
-            cliente,
-            indice,
-            documento
-          });
+          pendientes.push({ cliente, indice, documento });
         }
       });
     });
@@ -501,100 +498,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const fila = document.createElement("tr");
 
       fila.innerHTML = `
-      <td>
-        <span class="client-name">${escapeHTML(cliente)}</span>
-      </td>
-
+      <td><span class="client-name">${escapeHTML(cliente)}</span></td>
       <td>${escapeHTML(documento.nombre)}</td>
-
-      <td>
-        <span class="status status-pendiente">
-          Pendiente
-        </span>
-      </td>
-
+      <td><span class="status status-pendiente">Pendiente</span></td>
       <td class="column-action">
-        <button
-          class="btn btn-small"
-          type="button"
-        >
-          Marcar como recibido
-        </button>
+        <button class="btn btn-small" type="button">Marcar como recibido</button>
       </td>
     `;
 
-      fila
-        .querySelector("button")
-        .addEventListener("click", () => {
-          marcarComoRecibido(cliente, indice);
-        });
-
-      //<<<<<<< HEAD
-      tbody.appendChild(fila);
-      //=======
-      tabla.hidden = false;
-    }
-
-  function mostrarMensaje(texto, esError = false) {
-        mensaje.textContent = texto;
-        mensaje.className = esError
-          ? "form-mensaje form-mensaje--error"
-          : "form-mensaje form-mensaje--ok";
-
-        setTimeout(() => {
-          mensaje.textContent = "";
-          mensaje.className = "form-mensaje";
-        }, 3000);
-      }
-
-  let datos = cargarDatos();
-    actualizarDatalist(datos);
-    renderizarTabla(datos);
-
-    form.addEventListener("submit", (evento) => {
-      evento.preventDefault();
-
-      const cliente = inputCliente.value.trim();
-      const documento = inputDocumento.value.trim();
-
-      if (!cliente || !documento) {
-        mostrarMensaje(
-          "Escribe el cliente y el documento antes de agregar.",
-          true
-        );
-        return;
-      }
-
-      if (!datos[cliente]) {
-        datos[cliente] = [];
-      }
-
-      const yaExiste = datos[cliente].some(
-        (doc) => doc.nombre.toLowerCase() === documento.toLowerCase()
-      );
-
-      if (yaExiste) {
-        mostrarMensaje(
-          `${cliente} ya tiene "${documento}" en su lista.`,
-          true
-        );
-        return;
-      }
-
-      datos[cliente].push({
-        nombre: documento,
-        agregadoEl: new Date().toISOString(),
-        recibido: false,
+      fila.querySelector("button").addEventListener("click", () => {
+        marcarComoRecibido(cliente, indice);
       });
 
-      guardarDatos(datos);
-      actualizarDatalist(datos);
-      renderizarTabla(datos);
-
-      mostrarMensaje(`Se agregó "${documento}" a ${cliente}.`);
-      form.reset();
-      inputCliente.focus();
-      be7b25358c626a30589ec9d2e3ed1c56ef88e69b
+      tbody.appendChild(fila);
     });
   }
 
@@ -603,11 +519,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const documento = datos[cliente]?.[indice];
 
     if (!documento) {
-      mostrarMensaje(
-        "mensaje-marcar-documento",
-        "No se encontró el documento. Intenta de nuevo.",
-        true
-      );
+      mostrarMensaje("mensaje-marcar-documento", "No se encontró el documento. Intenta de nuevo.", true);
       return;
     }
 
@@ -615,15 +527,10 @@ document.addEventListener("DOMContentLoaded", () => {
     documento.recibidoEl = new Date().toISOString();
 
     guardarDatos(datos);
-
     renderizarTodo();
 
-    mostrarMensaje(
-      "mensaje-marcar-documento",
-      `Se marcó "${documento.nombre}" de ${cliente} como recibido.`
-    );
+    mostrarMensaje("mensaje-marcar-documento", `Se marcó "${documento.nombre}" de ${cliente} como recibido.`);
   }
-
 
   // ============================================================
   // CAL-3 — Agregar documento
