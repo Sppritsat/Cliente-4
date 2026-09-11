@@ -1,5 +1,4 @@
 // ============================================================
-//<<<<<<< HEAD
 // Núñez y Asociados — Control de documentación
 // Cliente 4 · Sprint 01
 //
@@ -7,83 +6,9 @@
 // CAL-1 — Consultar estado de documentos
 // CAL-2 — Marcar documento como recibido
 // CAL-3 — Agregar documento requerido
-//<<<<<<< HEAD
-// Núñez y Asociados — Consulta de documentos
-// CAL-1: Consultar estado de documentos de clientes
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-
-  // Obtener el panel correspondiente a CAL-1
-  const panelLista = document.querySelector(
-    '[data-feature="lista-clientes"]'
-  );
-
-  // Datos de ejemplo de los clientes
-  if (panelLista) {
-    const clientes = [
-      {
-        cliente: "Juan Pérez",
-        documento: "Factura mensual",
-        estado: "Entregado"
-      },
-      {
-        cliente: "María López",
-        documento: "Comprobante fiscal",
-        estado: "Pendiente"
-      },
-      {
-        cliente: "Carlos García",
-        documento: "Factura mensual",
-        estado: "Entregado"
-      },
-      {
-        cliente: "Ana Martínez",
-        documento: "Declaración mensual",
-        estado: "Pendiente"
-      }
-    ];
-
-    // Crear la tabla
-    const tabla = document.createElement("table");
-
-    tabla.innerHTML = `
-      <thead>
-        <tr>
-          <th>Cliente</th>
-          <th>Documento</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    `;
-
-    const cuerpoTabla = tabla.querySelector("tbody");
-
-    // Agregar cada cliente a la tabla
-    clientes.forEach(cliente => {
-
-      const fila = document.createElement("tr");
-
-      const claseEstado =
-        cliente.estado === "Entregado"
-          ? "status-entregado"
-          : "status-pendiente";
-
-      fila.innerHTML = `
-        <td>${cliente.cliente}</td>
-        <td>${cliente.documento}</td>
-        <td class="${claseEstado}">
-          ${cliente.estado}
-        </td>
-      `;
-
-      cuerpoTabla.appendChild(fila);
-    });
-
-    // Mostrar la tabla en el panel de CAL-1
-    panelLista.appendChild(tabla);
-  }
 
   const STORAGE_KEY = "documentosRequeridosPorCliente_v2";
 
@@ -122,25 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  document.addEventListener("DOMContentLoaded", () => {
-    //<<<<<<< HEAD
-    inicializarDatos();
-    inicializarFecha();
-    inicializarDatalist();
-    inicializarEventos();
-    renderizarTodo();
-    //=======
-    // Historia: lista-clientes (CAL-1 — pendiente de fusionar)
-    // const panelLista = document.querySelector('[data-feature="lista-clientes"]');
-
-    // Historia: marcar-documento (CAL-2)
-    initMarcarDocumento();
-    //>>>>>>> origin/main
-
-    // Historia: agregar-documento (CAL-3)
-    initAgregarDocumento();
-    //>>>>>>> be7b25358c626a30589ec9d2e3ed1c56ef88e69b
-  });
+  inicializarDatos();
+  inicializarFecha();
+  inicializarDatalist();
+  inicializarEventos();
+  renderizarTodo();
 
 
   // ============================================================
@@ -468,17 +379,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderizarPendientes() {
     const tabla = document.getElementById("tabla-marcar-documentos");
-    const vacio = document.getElementById("pendientes-vacio");
-    if (!tabla || !vacio) return;
-
     const tbody = tabla.querySelector("tbody");
+    const vacio = document.getElementById("pendientes-vacio");
     const datos = cargarDatos();
+
     const pendientes = [];
 
     Object.entries(datos).forEach(([cliente, documentos]) => {
       documentos.forEach((documento, indice) => {
         if (!documento.recibido) {
-          pendientes.push({ cliente, indice, documento });
+          pendientes.push({
+            cliente,
+            indice,
+            documento
+          });
         }
       });
     });
@@ -498,17 +412,33 @@ document.addEventListener("DOMContentLoaded", () => {
       const fila = document.createElement("tr");
 
       fila.innerHTML = `
-      <td><span class="client-name">${escapeHTML(cliente)}</span></td>
+      <td>
+        <span class="client-name">${escapeHTML(cliente)}</span>
+      </td>
+
       <td>${escapeHTML(documento.nombre)}</td>
-      <td><span class="status status-pendiente">Pendiente</span></td>
+
+      <td>
+        <span class="status status-pendiente">
+          Pendiente
+        </span>
+      </td>
+
       <td class="column-action">
-        <button class="btn btn-small" type="button">Marcar como recibido</button>
+        <button
+          class="btn btn-small"
+          type="button"
+        >
+          Marcar como recibido
+        </button>
       </td>
     `;
 
-      fila.querySelector("button").addEventListener("click", () => {
-        marcarComoRecibido(cliente, indice);
-      });
+      fila
+        .querySelector("button")
+        .addEventListener("click", () => {
+          marcarComoRecibido(cliente, indice);
+        });
 
       tbody.appendChild(fila);
     });
@@ -519,7 +449,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const documento = datos[cliente]?.[indice];
 
     if (!documento) {
-      mostrarMensaje("mensaje-marcar-documento", "No se encontró el documento. Intenta de nuevo.", true);
+      mostrarMensaje(
+        "mensaje-marcar-documento",
+        "No se encontró el documento. Intenta de nuevo.",
+        true
+      );
       return;
     }
 
@@ -527,10 +461,15 @@ document.addEventListener("DOMContentLoaded", () => {
     documento.recibidoEl = new Date().toISOString();
 
     guardarDatos(datos);
+
     renderizarTodo();
 
-    mostrarMensaje("mensaje-marcar-documento", `Se marcó "${documento.nombre}" de ${cliente} como recibido.`);
+    mostrarMensaje(
+      "mensaje-marcar-documento",
+      `Se marcó "${documento.nombre}" de ${cliente} como recibido.`
+    );
   }
+
 
   // ============================================================
   // CAL-3 — Agregar documento
