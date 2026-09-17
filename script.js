@@ -146,7 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function inicializarEventos() {
     const formulario = document.getElementById("form-agregar-documento");
     const cerrarDetalle = document.getElementById("cerrar-detalle");
-
+    const buscador = document.getElementById("input-buscar-cliente");
+    
     if (formulario) {
       formulario.addEventListener("submit", agregarDocumento);
     }
@@ -154,8 +155,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cerrarDetalle) {
       cerrarDetalle.addEventListener("click", cerrarDetalleCliente);
     }
+    if (buscador) {
+      buscador.addEventListener("input", filtrarClientes);
+    }
   }
+  // Función para filtrar la tabla de clientes
+  function filtrarClientes(evento) {
+    const textoBusqueda = evento.target.value.toLowerCase();
+    const filas = document.querySelectorAll("#tabla-clientes tbody tr");
 
+    filas.forEach(fila => {
+      // Obtenemos el nombre del cliente de cada fila
+      const nombreCliente = fila.querySelector(".client-name").textContent.toLowerCase();
+      
+      // Si el nombre incluye lo que escribimos, mostramos la fila, si no, la ocultamos
+      if (nombreCliente.includes(textoBusqueda)) {
+        fila.style.display = "";
+      } else {
+        fila.style.display = "none";
+      }
+    });
+  }
 
   // ============================================================
   // Render general
