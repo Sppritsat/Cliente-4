@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const formulario = document.getElementById("form-agregar-documento");
     const cerrarDetalle = document.getElementById("cerrar-detalle");
     const buscador = document.getElementById("input-buscar-cliente");
+
     
     if (formulario) {
       formulario.addEventListener("submit", agregarDocumento);
