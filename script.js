@@ -147,7 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const formulario = document.getElementById("form-agregar-documento");
     const cerrarDetalle = document.getElementById("cerrar-detalle");
     const buscador = document.getElementById("input-buscar-cliente");
-    
+
+
     if (formulario) {
       formulario.addEventListener("submit", agregarDocumento);
     }
@@ -159,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
       buscador.addEventListener("input", filtrarClientes);
     }
   }
-  // Función para filtrar la tabla de clientes
+  // Función para filtrar la tabla de clientesssss
   function filtrarClientes(evento) {
     const textoBusqueda = evento.target.value.toLowerCase();
     const filas = document.querySelectorAll("#tabla-clientes tbody tr");
