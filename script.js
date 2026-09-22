@@ -58,6 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Datos
   // ============================================================
 
+  // Inicializa la información de los clientes en localStorage.
+  // Si no existen datos guardados, carga los clientes iniciales.
+  // Si ya existen datos, conserva la información y agrega clientes faltantes.
   function inicializarDatos() {
     const guardado = localStorage.getItem(STORAGE_KEY);
 
@@ -102,16 +105,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Recupera del almacenamiento local la información de clientes y documentos.
+  // Si no existen datos guardados, devuelve un objeto vacío.
   function cargarDatos() {
     const guardado = localStorage.getItem(STORAGE_KEY);
     return guardado ? JSON.parse(guardado) : {};
   }
 
+  // Guarda en localStorage el estado actualizado de los clientes y documentos.
   function guardarDatos(datos) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
   }
-
-
   // ============================================================
   // Inicialización visual
   // ============================================================
@@ -168,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
     filas.forEach(fila => {
       // Obtenemos el nombre del cliente de cada fila
       const nombreCliente = fila.querySelector(".client-name").textContent.toLowerCase();
-      
+
       // Si el nombre incluye lo que escribimos, mostramos la fila, si no, la ocultamos
       if (nombreCliente.includes(textoBusqueda)) {
         fila.style.display = "";
